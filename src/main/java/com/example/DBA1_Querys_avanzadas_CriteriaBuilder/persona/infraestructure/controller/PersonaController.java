@@ -34,9 +34,9 @@ public class PersonaController {
      * (La fecha tiene que ser igual (fechaCondicion=equal) al created_date y el nombre tiene que ser alex)
      * */
 
-    @GetMapping("/getData")
-    public List<Persona> getData(@RequestParam HashMap<String, String> condiciones){
-        return personaService.getData(condiciones);
+    @GetMapping("/getData/{primer}/{ultimo}")
+    public List<Persona> getData(@RequestParam HashMap<String, String> condiciones, @PathVariable int primer, @PathVariable int ultimo){
+        return personaService.getData(condiciones, primer, ultimo);
     }
 
     ///////////////////////////////////////////////////////////////

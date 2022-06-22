@@ -35,7 +35,7 @@ public class PersonaService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Persona> getData(HashMap<String, String> condiciones){
+    public List<Persona> getData(HashMap<String, String> condiciones, int primer, int ultimo){
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Persona> query= cb.createQuery(Persona.class);
@@ -43,6 +43,10 @@ public class PersonaService {
         Root<Persona> root = query.from(Persona.class);
 
         List<Predicate> predicates = new ArrayList<>();
+
+        /**
+         * Condiciones tiene 2 campos el primero "field" es el parametro y "value" es el valor del parametro
+         * */
         condiciones.forEach((field,value) -> {
             switch (field) {
                 case "user":
@@ -68,7 +72,14 @@ public class PersonaService {
             }
         });
         query.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
-        return entityManager.createQuery(query).getResultList();
+
+        /**
+         * Creamos esta lsita de personas y con las funciones de setMaxResult(), setFistResult(), le establecemos el número máximo de resultados y el primer resultado que ha de retornar.
+         * */
+        
+        List<Persona> personaLista = entityManager.createQuery(query).setMaxResults(ultimo).setFirstResult(primer).getResultList();
+
+        return personaLista;
     }
 
     /**
