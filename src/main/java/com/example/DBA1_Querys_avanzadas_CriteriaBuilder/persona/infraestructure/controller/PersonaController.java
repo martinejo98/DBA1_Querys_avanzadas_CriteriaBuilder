@@ -30,12 +30,12 @@ public class PersonaController {
 
 
     /**
-     * Recibimos la llamada del postman con X confdiciones --> http://localhost:8080/persona/getData?created_date=21-01-2018&fechaCondicion=equal&name=alex
-     * (La fecha tiene que ser igual (fechaCondicion=equal) al created_date y el nombre tiene que ser alex)
+     * Recibimos la llamada del postman con X confdiciones --> http://localhost:8080/persona/getData?pagina=0&num=2&created_date=2011-07-05&fechaCondicion=after&name=alex
+     * Le pido que me muestre los 3 primeros registros (0,1,2) del 0 al 2. La fecha tiene que ser después (fechaCondicion=after) al created_date y el nombre tiene que ser alex
      * */
 
-    @GetMapping("/getData/{primer}/{ultimo}")
-    public List<Persona> getData(@RequestParam HashMap<String, String> condiciones, @PathVariable int primer, @PathVariable int ultimo){
+    @GetMapping("/getData")
+    public List<Persona> getData(@RequestParam HashMap<String, String> condiciones, @RequestParam("pagina") int primer, @RequestParam("num") int ultimo){
         return personaService.getData(condiciones, primer, ultimo);
     }
 
